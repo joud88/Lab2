@@ -1,6 +1,9 @@
-# apps/usermodule/urls.py
 from django.urls import path
+from . import views
+
+app_name = "users"
 
 urlpatterns = [
-    # Add usermodule URLs here later
+    # example
+    # path('', views.index, name='index'),
 ]

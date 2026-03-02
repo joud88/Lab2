@@ -1,26 +1,19 @@
-*.log
-*.pot
+# Python
+__pycache__/
 *.pyc
-__pycache__
-*.bak
-*.py[cod]
-*$py.class
-pip-log.txt
-pip-delete-this-directory.txt
-.ipynb_checkpoints
-.python-version
-celerybeat-schedule.*
-# Environments
-.env
-.venv
+
+# Django
+db.sqlite3
+*.log
+
+# Virtual environment
+djangoenv/
 env/
 venv/
-ENV/
-env.bak/
-venv.bak/
-.mypy_cache/
-**/migrations
-*.DS_Store
-**/__pycache__
-**/.DS_Store
-.history
+
+# VS / IDE
+.vs/
+.vscode/
+
+# OS
+.DS_Store
