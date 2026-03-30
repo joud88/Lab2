@@ -1,0 +1,93 @@
+/* Rectangle 1 */
+.box1{
+    padding:20px;
+    text-align:center;
+    background-color:green;
+    margin:10px;
+}
+
+.box1 a:link,
+.box1 a:visited{
+    color:red;
+    text-decoration:none;
+}
+
+
+/* Rectangle 2 */
+.box2{
+    padding:20px;
+    text-align:center;
+    background-color:gray;
+    margin:10px;
+}
+
+.box2 a:link,
+.box2 a:visited{
+    color:yellow;
+    text-decoration:none;
+}
+
+
+/* Rectangle 3 */
+.box3{
+    padding:20px;
+    text-align:center;
+    background-color:black;
+    margin:10px;
+}
+
+.box3 a:link,
+.box3 a:visited{
+    color:white;
+    text-decoration:none;
+}
+
+
+/* hover and click behavior */
+a:hover{
+    font-weight:bold;
+}
+
+a:active{
+    opacity:0.7;
+}
+
+
+.format-title{
+    background-color: yellow;
+    color: green;
+    padding: 10px;
+    display: inline-block;
+}
+
+
+.listing-title{
+    background-color: lightblue;
+    padding:10px;
+}
+
+.fruit-table, .camel-table {
+    border-collapse: collapse;
+    width: 80%;
+    margin-bottom: 30px;
+}
+
+.fruit-table th, .fruit-table td,
+.camel-table th, .camel-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+
+.fruit-table th {
+    background-color: #f2f2f2;
+}
+
+.camel-table th {
+    background-color: lightblue;
+}
+
+.camel-table td img {
+    display: block;
+    margin: auto;
+}
