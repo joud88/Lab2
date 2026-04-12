@@ -1,13 +1,12 @@
-{% extends "layouts/base.html" %}
-{% load static %}
-
-{% block title %}Show One Book{% endblock %}
+{% extends 'layouts/base.html' %}
 
 {% block content %}
-<a href="{% url 'books:list_books' %}">Go Back</a>
-<h1>Details of Book1</h1>
-<h2>Internet & World Wide Web How to Program</h2>
-<h2>Author: Author Name</h2>
-<p><strong>Internet & World Wide Web How to Program</strong> provides a clear, simple, engaging introduction to Internet and web programming.</p>
-<img src="{% static 'book1.jpg' %}" alt="Book1 image" width="200" height="200">
-{% endblock %}
+<h1>Book Details</h1>
+
+<p><strong>ID:</strong> {{ book.id }}</p>
+<p><strong>Title:</strong> {{ book.title }}</p>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Price:</strong> {{ book.price }}</p>
+<p><strong>Edition:</strong> {{ book.edition }}</p>
+
+{% endblock content %}
