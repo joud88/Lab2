@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 8 - Task 7</title>
+</head>
+<body>
+    <h1>Number of Students in Each City</h1>
+
+    {% if students_per_city %}
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>City</th>
+                <th>Number of Students</th>
+            </tr>
+            {% for item in students_per_city %}
+            <tr>
+                <td>{{ item.address__city }}</td>
+                <td>{{ item.student_count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No student data found.</p>
+    {% endif %}
+</body>
+</html>
