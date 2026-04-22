@@ -2,7 +2,66 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Book
 from django.db.models import Count, Sum, Avg, Max, Min
-from .models import Book, Student
+from .models import Book, Student ,Publisher
+
+
+
+
+
+def lab9_task1(request):
+    books = Book.objects.all()
+    total_quantity = Book.objects.aggregate(total=Sum('quantity'))['total'] or 0
+
+    for book in books:
+        if total_quantity > 0:
+            book.percentage_availability = round((book.quantity / total_quantity) * 100, 2)
+        else:
+            book.percentage_availability = 0
+
+    return render(request, 'bookmodule/lab9_task1.html', {'books': books})
+
+
+def lab9_task2(request):
+    publishers = Publisher.objects.annotate(total_book_stock=Sum('book__quantity'))
+
+    return render(request, 'bookmodule/lab9_task2.html', {'publishers': publishers})
+
+
+
+def lab9_task3(request):
+    publishers = Publisher.objects.annotate(oldest_book_date=Min('book__pubdate'))
+
+    return render(request, 'bookmodule/lab9_task3.html', {'publishers': publishers})
+
+
+def lab9_task4(request):
+    publishers = Publisher.objects.annotate(
+        avg_price=Avg('book__price'),
+        min_price=Min('book__price'),
+        max_price=Max('book__price')
+    )
+    return render(request, 'bookmodule/lab9_task4.html', {'publishers': publishers})
+
+
+
+def lab9_task5(request):
+    publishers = Publisher.objects.annotate(
+        high_rated_books_count=Count('book', filter=Q(book__rating__gte=4))
+    )
+
+    return render(request, 'bookmodule/lab9_task5.html', {'publishers': publishers})
+
+
+
+def lab9_task6(request):
+    publishers = Publisher.objects.annotate(
+        filtered_books_count=Count(
+            'book',
+            filter=Q(book__price__gt=50, book__quantity__lt=5, book__quantity__gte=1)
+        )
+    )
+
+    return render(request, 'bookmodule/lab9_task6.html', {'publishers': publishers})
 
 
 
