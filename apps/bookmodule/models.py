@@ -44,3 +44,30 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Address2(models.Model):
+    city = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.city} - {self.street}"
+
+
+class Student2(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    email = models.EmailField()
+    addresses = models.ManyToManyField(Address2)
+
+    def __str__(self):
+        return self.name
+
+
+class Course(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='course_images/')
+
+    def __str__(self):
+        return self.title

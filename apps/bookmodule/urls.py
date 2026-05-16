@@ -1,7 +1,8 @@
 ﻿from django.urls import path
 from . import views
 
-app_name = "books"
+
+
 
 urlpatterns = [
     path('', views.index, name="index"),
@@ -35,6 +36,35 @@ urlpatterns = [
     path('lab9_part2/addbook', views.lab9_part2_addbook, name='lab9_part2_addbook'),
     path('lab9_part2/editbook/<int:id>', views.lab9_part2_editbook, name='lab9_part2_editbook'),
     path('lab9_part2/deletebook/<int:id>', views.lab9_part2_deletebook, name='lab9_part2_deletebook'),
+     path('addresses/', views.address_list, name='address_list'),
+    path('addresses/add/', views.address_add, name='address_add'),
+    path('addresses/update/<int:id>/', views.address_update, name='address_update'),
+    path('addresses/delete/<int:id>/', views.address_delete, name='address_delete'),
+
+    # Task 1: Student
+    path('students/', views.student_list, name='student_list'),
+    path('students/add/', views.student_add, name='student_add'),
+    path('students/update/<int:id>/', views.student_update, name='student_update'),
+    path('students/delete/<int:id>/', views.student_delete, name='student_delete'),
+
+    # Task 2: Address2
+    path('addresses2/', views.address2_list, name='address2_list'),
+    path('addresses2/add/', views.address2_add, name='address2_add'),
+    path('addresses2/update/<int:id>/', views.address2_update, name='address2_update'),
+    path('addresses2/delete/<int:id>/', views.address2_delete, name='address2_delete'),
+
+    # Task 2: Student2
+    path('students2/', views.student2_list, name='student2_list'),
+    path('students2/add/', views.student2_add, name='student2_add'),
+    path('students2/update/<int:id>/', views.student2_update, name='student2_update'),
+    path('students2/delete/<int:id>/', views.student2_delete, name='student2_delete'),
+
+    # Task 3: Course with image
+    path('courses/', views.course_list, name='course_list'),
+    path('courses/add/', views.course_add, name='course_add'),
+    path('courses/update/<int:id>/', views.course_update, name='course_update'),
+    path('courses/delete/<int:id>/', views.course_delete, name='course_delete'),
+    path('users/register/', views.register_user, name='register'),
 
 
 ]

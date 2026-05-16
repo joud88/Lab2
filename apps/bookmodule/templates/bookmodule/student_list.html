@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+</head>
+<body>
+
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<h1>Student List - One Address for Each Student</h1>
+<p>
+    Logged in as: {{ request.user.username }}
+    |
+    <a href="/users/logout/">Logout</a>
+</p>
+
+
+<a href="{% url 'student_add' %}">Add Student</a>
+<br>
+<a href="{% url 'address_list' %}">Manage Addresses</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for student in students %}
+    <tr>
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.age }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.address }}</td>
+        <td>
+            <a href="{% url 'student_update' student.id %}">Update</a>
+            <a href="{% url 'student_delete' student.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

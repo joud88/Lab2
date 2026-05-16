@@ -1,7 +1,305 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Count, Sum, Avg, Max, Min
-from .models import Book, Student, Publisher, Author
-from .forms import BookForm
+from .models import Book, Student, Publisher, Author, Address, Student2, Address2, Course
+from .forms import BookForm ,StudentForm, AddressForm, Student2Form, Address2Form, CourseForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have successfully logged out.')
+    return redirect('/users/login/')
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successfully.')
+            return redirect('/books/students/')
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'bookmodule/login.html')
+
+
+
+def register_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'You have successfully registered.')
+            return redirect('/users/login/')
+        else:
+            messages.error(request, 'Registration failed. Please check the form.')
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'bookmodule/register.html', {'form': form})
+
+# -------------------------
+# Task 1: Address Views
+# -------------------------
+@login_required
+def address_list(request):
+    addresses = Address.objects.all()
+    return render(request, 'bookmodule/address_list.html', {'addresses': addresses})
+
+@login_required
+def address_add(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('address_list')
+    else:
+        form = AddressForm()
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Add Address'})
+
+@login_required
+
+def address_update(request, id):
+    address = get_object_or_404(Address, id=id)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('address_list')
+    else:
+        form = AddressForm(instance=address)
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Update Address'})
+
+@login_required
+
+def address_delete(request, id):
+    address = get_object_or_404(Address, id=id)
+
+    if request.method == 'POST':
+        address.delete()
+        return redirect('address_list')
+
+    return render(request, 'bookmodule/confirm_delete.html', {'object': address})
+
+
+# -------------------------
+# Task 1: Student Views
+# -------------------------
+@login_required
+
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/student_list.html', {'students': students})
+
+
+@login_required
+def student_add(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student added successfully.')
+            return redirect('student_list')
+        else:
+            messages.error(request, 'Error adding student. Please check the form.')
+    else:
+        form = StudentForm()
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Add Student'})
+
+
+@login_required
+def student_update(request, id):
+    student = get_object_or_404(Student, id=id)
+
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student updated successfully.')
+            return redirect('student_list')
+        else:
+            messages.error(request, 'Error updating student. Please check the form.')
+    else:
+        form = StudentForm(instance=student)
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Update Student'})
+
+
+@login_required
+def student_delete(request, id):
+    student = get_object_or_404(Student, id=id)
+
+    if request.method == 'POST':
+        student.delete()
+        messages.success(request, 'Student deleted successfully.')
+        return redirect('student_list')
+
+    return render(request, 'bookmodule/confirm_delete.html', {'object': student})
+
+# -------------------------
+# Task 2: Address2 Views
+# -------------------------
+@login_required
+
+def address2_list(request):
+    addresses = Address2.objects.all()
+    return render(request, 'bookmodule/address2_list.html', {'addresses': addresses})
+
+@login_required
+
+def address2_add(request):
+    if request.method == 'POST':
+        form = Address2Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('address2_list')
+    else:
+        form = Address2Form()
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Add Address2'})
+
+@login_required
+
+def address2_update(request, id):
+    address = get_object_or_404(Address2, id=id)
+
+    if request.method == 'POST':
+        form = Address2Form(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('address2_list')
+    else:
+        form = Address2Form(instance=address)
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Update Address2'})
+
+@login_required
+
+def address2_delete(request, id):
+    address = get_object_or_404(Address2, id=id)
+
+    if request.method == 'POST':
+        address.delete()
+        return redirect('address2_list')
+
+    return render(request, 'bookmodule/confirm_delete.html', {'object': address})
+
+
+# -------------------------
+# Task 2: Student2 Views
+# -------------------------
+@login_required
+
+def student2_list(request):
+    students = Student2.objects.all()
+    return render(request, 'bookmodule/student2_list.html', {'students': students})
+
+@login_required
+
+def student2_add(request):
+    if request.method == 'POST':
+        form = Student2Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('student2_list')
+    else:
+        form = Student2Form()
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Add Student2'})
+
+@login_required
+
+def student2_update(request, id):
+    student = get_object_or_404(Student2, id=id)
+
+    if request.method == 'POST':
+        form = Student2Form(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('student2_list')
+    else:
+        form = Student2Form(instance=student)
+
+    return render(request, 'bookmodule/form.html', {'form': form, 'title': 'Update Student2'})
+
+@login_required
+
+def student2_delete(request, id):
+    student = get_object_or_404(Student2, id=id)
+
+    if request.method == 'POST':
+        student.delete()
+        return redirect('student2_list')
+
+    return render(request, 'bookmodule/confirm_delete.html', {'object': student})
+
+
+# -------------------------
+# Task 3: Course with Image Views
+# -------------------------
+@login_required
+
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'bookmodule/course_list.html', {'courses': courses})
+
+@login_required
+
+def course_add(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('course_list')
+    else:
+        form = CourseForm()
+
+    return render(request, 'bookmodule/course_form.html', {'form': form, 'title': 'Add Course'})
+
+@login_required
+
+def course_update(request, id):
+    course = get_object_or_404(Course, id=id)
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('course_list')
+    else:
+        form = CourseForm(instance=course)
+
+    return render(request, 'bookmodule/course_form.html', {'form': form, 'title': 'Update Course'})
+
+@login_required
+
+def course_delete(request, id):
+    course = get_object_or_404(Course, id=id)
+
+    if request.method == 'POST':
+        course.delete()
+        return redirect('course_list')
+
+    return render(request, 'bookmodule/confirm_delete.html', {'object': course})
+
+
+
+
+
+
+
+
 
 
 def lab9_part1_listbooks(request):

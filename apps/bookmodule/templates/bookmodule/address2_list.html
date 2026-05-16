@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Address2 List</title>
+</head>
+<body>
+
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<h1>Address2 List</h1>
+
+<p>
+    Logged in as: {{ request.user.username }}
+    |
+    <a href="/users/logout/">Logout</a>
+</p>
+
+<a href="{% url 'address2_add' %}">Add Address2</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>City</th>
+        <th>Street</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for address in addresses %}
+    <tr>
+        <td>{{ address.id }}</td>
+        <td>{{ address.city }}</td>
+        <td>{{ address.street }}</td>
+        <td>
+            <a href="{% url 'address2_update' address.id %}">Update</a>
+            <a href="{% url 'address2_delete' address.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="{% url 'student2_list' %}">Go to Students2</a>
+
+</body>
+</html>
